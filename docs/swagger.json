@@ -1,0 +1,239 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Neutron Star API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/calculator/ipv4": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "calculator"
+                ],
+                "summary": "解析 ipv4",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "ip_addr",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.IPv4"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.CalculatorErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.CalculatorErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/calculator/ipv6": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "calculator"
+                ],
+                "summary": "解析 ipv6",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "ip_addr",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.IPv6"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.CalculatorErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.CalculatorErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/pixiv": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "pixiv"
+                ],
+                "summary": "获取 pixiv 图片 url",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "num",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.ImageInDB"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.PixivErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.PixivErr"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.CalculatorErr": {
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.IPv4": {
+            "type": "object",
+            "properties": {
+                "cidr": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "end": {
+                    "type": "string"
+                },
+                "ip": {
+                    "type": "string"
+                },
+                "mask_bits": {
+                    "type": "integer"
+                },
+                "start": {
+                    "type": "string"
+                },
+                "subnet_mask": {
+                    "type": "string"
+                },
+                "wildcard_mask": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.IPv6": {
+            "type": "object",
+            "properties": {
+                "long": {
+                    "$ref": "#/definitions/model.SubIPv6"
+                },
+                "short": {
+                    "$ref": "#/definitions/model.SubIPv6"
+                }
+            }
+        },
+        "model.ImageInDB": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_r18": {
+                    "type": "boolean"
+                },
+                "origin_url": {
+                    "type": "string"
+                },
+                "relative_path": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.PixivErr": {
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.SubIPv6": {
+            "type": "object",
+            "properties": {
+                "cidr": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "end": {
+                    "type": "string"
+                },
+                "ip": {
+                    "type": "string"
+                },
+                "mask_bits": {
+                    "type": "integer"
+                },
+                "start": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
