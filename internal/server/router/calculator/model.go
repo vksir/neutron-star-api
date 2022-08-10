@@ -1,7 +1,7 @@
-package model
+package calculator
 
-type CalculatorErr struct {
-	Detail string `json:"detail"`
+type IpCalcParams struct {
+	IpAddr string `form:"ip_addr" binding:"required"`
 }
 
 type IPv4 struct {
@@ -13,10 +13,6 @@ type IPv4 struct {
 	SubnetMask   string `json:"subnet_mask"`
 	Count        int64  `json:"count"`
 	WildcardMask string `json:"wildcard_mask"`
-}
-
-type Ipv4CalcParams struct {
-	IpAddr string `form:"ip_addr" binding:"required"`
 }
 
 type IPv6 struct {
@@ -31,8 +27,4 @@ type SubIPv6 struct {
 	End      string `json:"end"`
 	MaskBits int    `json:"mask_bits"`
 	Count    int64  `json:"count"`
-}
-
-type Ipv6CalcParams struct {
-	IpAddr string `form:"ip_addr" binding:"required"`
 }

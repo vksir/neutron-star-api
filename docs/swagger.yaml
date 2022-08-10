@@ -1,10 +1,5 @@
 definitions:
-  model.CalculatorErr:
-    properties:
-      detail:
-        type: string
-    type: object
-  model.IPv4:
+  calculator.IPv4:
     properties:
       cidr:
         type: string
@@ -23,34 +18,14 @@ definitions:
       wildcard_mask:
         type: string
     type: object
-  model.IPv6:
+  calculator.IPv6:
     properties:
       long:
-        $ref: '#/definitions/model.SubIPv6'
+        $ref: '#/definitions/calculator.SubIPv6'
       short:
-        $ref: '#/definitions/model.SubIPv6'
+        $ref: '#/definitions/calculator.SubIPv6'
     type: object
-  model.ImageInDB:
-    properties:
-      create_time:
-        type: string
-      id:
-        type: integer
-      is_r18:
-        type: boolean
-      origin_url:
-        type: string
-      relative_path:
-        type: string
-      tags:
-        type: string
-    type: object
-  model.PixivErr:
-    properties:
-      detail:
-        type: string
-    type: object
-  model.SubIPv6:
+  calculator.SubIPv6:
     properties:
       cidr:
         type: string
@@ -63,6 +38,26 @@ definitions:
       mask_bits:
         type: integer
       start:
+        type: string
+    type: object
+  model.Err:
+    properties:
+      detail:
+        type: string
+    type: object
+  pixiv.ImageInDB:
+    properties:
+      create_time:
+        type: string
+      id:
+        type: integer
+      is_r18:
+        type: boolean
+      origin_url:
+        type: string
+      relative_path:
+        type: string
+      tags:
         type: string
     type: object
 info:
@@ -85,15 +80,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.IPv4'
+            $ref: '#/definitions/calculator.IPv4'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/model.CalculatorErr'
+            $ref: '#/definitions/model.Err'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/model.CalculatorErr'
+            $ref: '#/definitions/model.Err'
       summary: 解析 ipv4
       tags:
       - calculator
@@ -112,15 +107,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.IPv6'
+            $ref: '#/definitions/calculator.IPv6'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/model.CalculatorErr'
+            $ref: '#/definitions/model.Err'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/model.CalculatorErr'
+            $ref: '#/definitions/model.Err'
       summary: 解析 ipv6
       tags:
       - calculator
@@ -138,15 +133,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.ImageInDB'
+            $ref: '#/definitions/pixiv.ImageInDB'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/model.PixivErr'
+            $ref: '#/definitions/model.Err'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/model.PixivErr'
+            $ref: '#/definitions/model.Err'
       summary: 获取 pixiv 图片 url
       tags:
       - pixiv

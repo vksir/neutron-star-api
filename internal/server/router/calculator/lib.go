@@ -1,4 +1,4 @@
-package ip
+package calculator
 
 import (
 	"math/big"

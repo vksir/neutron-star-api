@@ -1,24 +1,23 @@
-package ip
+package calculator
 
 import (
 	"fmt"
 	"net"
-	"neutron-star-api/internal/server/router/calculator/model"
 	"strings"
 )
 
 const IPv6Bits = 128
 const IPv6Len = 8
 
-func ParseIPv6(ipAddr string) (*model.IPv6, error) {
+func ParseIPv6(ipAddr string) (*IPv6, error) {
 	if ip, ipNet, err := net.ParseCIDR(ipAddr); err != nil {
 		return nil, err
 	} else {
 		prefixLen, _ := ipNet.Mask.Size()
 		start, end := getAddressRange(ipNet, IPv6Bits)
 		count := getAddressCount(ipNet)
-		return &model.IPv6{
-			Short: model.SubIPv6{
+		return &IPv6{
+			Short: SubIPv6{
 				IP:       ip.String(),
 				CIDR:     ipNet.String(),
 				Start:    start.String(),
@@ -26,7 +25,7 @@ func ParseIPv6(ipAddr string) (*model.IPv6, error) {
 				MaskBits: prefixLen,
 				Count:    count,
 			},
-			Long: model.SubIPv6{
+			Long: SubIPv6{
 				IP:       getLongIPv6Str(ip.String()),
 				CIDR:     getLongCIDR(ipNet.String()),
 				Start:    getLongIPv6Str(start.String()),

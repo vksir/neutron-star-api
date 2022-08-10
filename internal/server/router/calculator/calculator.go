@@ -3,8 +3,7 @@ package calculator
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"neutron-star-api/internal/server/router/calculator/ip"
-	"neutron-star-api/internal/server/router/calculator/model"
+	"neutron-star-api/internal/server/model"
 )
 
 func LoadHandler(e *gin.Engine) {
@@ -18,21 +17,19 @@ func LoadHandler(e *gin.Engine) {
 // @Tags         calculator
 // @Accept       json
 // @Produce      json
-// @Param        params  query  model.Ipv4CalcParams true "params"
-// @Success      200  {object}  model.IPv4
-// @Failure      400  {object}  model.CalculatorErr
-// @Failure      500  {object}  model.CalculatorErr
+// @Param        params  query  calculator.IpCalcParams true "params"
+// @Success      200  {object}  calculator.IPv4
+// @Failure      400  {object}  model.Err
+// @Failure      500  {object}  model.Err
 // @Router       /calculator/ipv4 [get]
 func ipv4Calc(c *gin.Context) {
-	var params struct {
-		IpAddr string `form:"ip_addr" binding:"required"`
-	}
+	var params model.CalculatorIpv4CalcParams
 	if err := c.ShouldBindQuery(&params); err != nil {
-		c.JSON(http.StatusBadRequest, model.CalculatorErr{Detail: err.Error()})
+		c.JSON(http.StatusBadRequest, model.Err{Detail: err.Error()})
 		return
 	}
-	if i, err := ip.ParseIPv4(params.IpAddr); err != nil {
-		c.JSON(http.StatusBadRequest, model.CalculatorErr{Detail: err.Error()})
+	if i, err := ParseIPv4(params.IpAddr); err != nil {
+		c.JSON(http.StatusBadRequest, model.Err{Detail: err.Error()})
 	} else {
 		c.JSON(http.StatusOK, i)
 	}
@@ -43,21 +40,19 @@ func ipv4Calc(c *gin.Context) {
 // @Tags         calculator
 // @Accept       json
 // @Produce      json
-// @Param        params  query  model.Ipv6CalcParams true "params"
-// @Success      200  {object}  model.IPv6
-// @Failure      400  {object}  model.CalculatorErr
-// @Failure      500  {object}  model.CalculatorErr
+// @Param        params  query  calculator.IpCalcParams true "params"
+// @Success      200  {object}  calculator.IPv6
+// @Failure      400  {object}  model.Err
+// @Failure      500  {object}  model.Err
 // @Router       /calculator/ipv6 [get]
 func ipv6Calc(c *gin.Context) {
-	var params struct {
-		IpAddr string `form:"ip_addr" binding:"required"`
-	}
+	var params IpCalcParams
 	if err := c.ShouldBindQuery(&params); err != nil {
-		c.JSON(http.StatusBadRequest, model.CalculatorErr{Detail: err.Error()})
+		c.JSON(http.StatusBadRequest, model.Err{Detail: err.Error()})
 		return
 	}
-	if i, err := ip.ParseIPv6(params.IpAddr); err != nil {
-		c.JSON(http.StatusBadRequest, model.CalculatorErr{Detail: err.Error()})
+	if i, err := ParseIPv6(params.IpAddr); err != nil {
+		c.JSON(http.StatusBadRequest, model.Err{Detail: err.Error()})
 	} else {
 		c.JSON(http.StatusOK, i)
 	}
@@ -67,7 +62,7 @@ func timeCalc(c *gin.Context) {
 	var data struct {
 	}
 	if err := c.ShouldBindQuery(&data); err != nil {
-		c.JSON(http.StatusBadRequest, model.CalculatorErr{Detail: err.Error()})
+		c.JSON(http.StatusBadRequest, model.Err{Detail: err.Error()})
 		return
 	}
 }

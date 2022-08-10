@@ -40,19 +40,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.IPv4"
+                            "$ref": "#/definitions/calculator.IPv4"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/model.CalculatorErr"
+                            "$ref": "#/definitions/model.Err"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/model.CalculatorErr"
+                            "$ref": "#/definitions/model.Err"
                         }
                     }
                 }
@@ -82,19 +82,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.IPv6"
+                            "$ref": "#/definitions/calculator.IPv6"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/model.CalculatorErr"
+                            "$ref": "#/definitions/model.Err"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/model.CalculatorErr"
+                            "$ref": "#/definitions/model.Err"
                         }
                     }
                 }
@@ -123,19 +123,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.ImageInDB"
+                            "$ref": "#/definitions/pixiv.ImageInDB"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/model.PixivErr"
+                            "$ref": "#/definitions/model.Err"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/model.PixivErr"
+                            "$ref": "#/definitions/model.Err"
                         }
                     }
                 }
@@ -143,15 +143,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "model.CalculatorErr": {
-            "type": "object",
-            "properties": {
-                "detail": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.IPv4": {
+        "calculator.IPv4": {
             "type": "object",
             "properties": {
                 "cidr": {
@@ -180,49 +172,18 @@ const docTemplate = `{
                 }
             }
         },
-        "model.IPv6": {
+        "calculator.IPv6": {
             "type": "object",
             "properties": {
                 "long": {
-                    "$ref": "#/definitions/model.SubIPv6"
+                    "$ref": "#/definitions/calculator.SubIPv6"
                 },
                 "short": {
-                    "$ref": "#/definitions/model.SubIPv6"
+                    "$ref": "#/definitions/calculator.SubIPv6"
                 }
             }
         },
-        "model.ImageInDB": {
-            "type": "object",
-            "properties": {
-                "create_time": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "is_r18": {
-                    "type": "boolean"
-                },
-                "origin_url": {
-                    "type": "string"
-                },
-                "relative_path": {
-                    "type": "string"
-                },
-                "tags": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.PixivErr": {
-            "type": "object",
-            "properties": {
-                "detail": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.SubIPv6": {
+        "calculator.SubIPv6": {
             "type": "object",
             "properties": {
                 "cidr": {
@@ -241,6 +202,37 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "start": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Err": {
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "type": "string"
+                }
+            }
+        },
+        "pixiv.ImageInDB": {
+            "type": "object",
+            "properties": {
+                "create_time": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_r18": {
+                    "type": "boolean"
+                },
+                "origin_url": {
+                    "type": "string"
+                },
+                "relative_path": {
+                    "type": "string"
+                },
+                "tags": {
                     "type": "string"
                 }
             }

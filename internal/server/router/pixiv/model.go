@@ -1,8 +1,4 @@
-package model
-
-type PixivErr struct {
-	Detail string `json:"detail"`
-}
+package pixiv
 
 type ImageInDB struct {
 	Id           int

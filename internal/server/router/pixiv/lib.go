@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"neutron-star-api/internal/database"
-	"neutron-star-api/internal/server/router/pixiv/model"
 	"neutron-star-api/internal/server/router/static"
 	"neutron-star-api/pkg/util"
 	"neutron-star-api/third_party/loliconapi"
@@ -39,8 +38,8 @@ func downloadFromPixiv(downloadUrl string, p loliconapi.PixivImg) {
 	}
 }
 
-func findImageInDB(pid int) (*model.ImageInDB, bool) {
-	var img model.ImageInDB
+func findImageInDB(pid int) (*ImageInDB, bool) {
+	var img ImageInDB
 	err := database.DB.QueryRow("select * from t_pixiv where picture_id == ?", pid).Scan(&img)
 	if err != nil {
 		return nil, false
