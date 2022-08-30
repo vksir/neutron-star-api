@@ -23,7 +23,7 @@ func LoadHandler(e *gin.Engine) {
 // @Failure      500  {object}  model.Err
 // @Router       /calculator/ipv4 [get]
 func ipv4Calc(c *gin.Context) {
-	var params model.CalculatorIpv4CalcParams
+	var params IpCalcParams
 	if err := c.ShouldBindQuery(&params); err != nil {
 		c.JSON(http.StatusBadRequest, model.Err{Detail: err.Error()})
 		return
