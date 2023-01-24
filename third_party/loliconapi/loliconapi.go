@@ -31,7 +31,7 @@ type PixivImg struct {
 	} `json:"urls"`
 }
 
-func GetPixivImages(num int) (*Response, error) {
+func GetPixivImages(num int) ([]PixivImg, error) {
 	c := resty.New()
 	resp, err := c.R().
 		SetQueryParams(map[string]string{
@@ -42,12 +42,12 @@ func GetPixivImages(num int) (*Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	data := &Response{}
-	if err := json.Unmarshal(resp.Body(), data); err != nil {
+	body := Response{}
+	if err := json.Unmarshal(resp.Body(), &body); err != nil {
 		return nil, err
 	}
-	if data.Error != "" {
-		return nil, errors.New(data.Error)
+	if body.Error != "" {
+		return nil, errors.New(body.Error)
 	}
-	return data, nil
+	return body.Data, nil
 }

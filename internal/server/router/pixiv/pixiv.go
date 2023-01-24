@@ -3,7 +3,6 @@ package pixiv
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"net/url"
 	"neutron-star-api/internal/server/model"
 	"neutron-star-api/third_party/loliconapi"
 )
@@ -18,7 +17,7 @@ func LoadHandler(e *gin.Engine) {
 // @Accept       json
 // @Produce      json
 // @Param        params  query  pixiv.GetParams true "params"
-// @Success      200  {object}  pixiv.ImageInDB
+// @Success      200  {object}  pixiv.Images
 // @Failure      400  {object}  model.Err
 // @Failure      500  {object}  model.Err
 // @Router       /pixiv [get]
@@ -28,26 +27,15 @@ func get(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, model.Err{Detail: err.Error()})
 		return
 	}
-	data, err := loliconapi.GetPixivImages(params.Num)
+	pixivImages, err := loliconapi.GetPixivImages(params.Num)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, model.Err{Detail: err.Error()})
 		return
 	}
 	var imgUrls []string
-	for _, pixivImg := range data.Data {
+	for _, pixivImg := range pixivImages {
 		proxyPixivUrl := transformToProxyUrl(pixivImg.Urls.Original)
-		imageInDB, isExists := findImageInDB(pixivImg.Pid)
-		if isExists {
-			localUrl := url.URL{
-				Scheme: "http",
-				Host:   c.Request.Host,
-				Path:   imageInDB.RelativePath,
-			}
-			imgUrls = append(imgUrls, localUrl.String())
-		} else {
-			imgUrls = append(imgUrls, proxyPixivUrl)
-			go downloadFromPixiv(proxyPixivUrl, pixivImg)
-		}
+		imgUrls = append(imgUrls, proxyPixivUrl)
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"img_urls": imgUrls,

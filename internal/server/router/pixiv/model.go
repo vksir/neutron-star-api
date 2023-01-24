@@ -1,14 +1,7 @@
 package pixiv
 
-type ImageInDB struct {
-	Id           int
-	pid          int
-	uid          int
-	Tags         string
-	IsR18        bool
-	OriginUrl    string
-	RelativePath string
-	CreateTime   string
+type Images struct {
+	ImgUrls []string `json:"img_urls"`
 }
 
 type GetParams struct {
