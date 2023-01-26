@@ -1,4 +1,4 @@
-package model
+package commonresp
 
 type Ok struct{}
 

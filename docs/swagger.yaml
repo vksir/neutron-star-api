@@ -40,24 +40,35 @@ definitions:
       start:
         type: string
     type: object
-  model.Err:
+  commonresp.Err:
     properties:
       detail:
         type: string
     type: object
-  pixiv.ImageInDB:
+  commonresp.Ok:
+    type: object
+  pixiv.Images:
     properties:
-      create_time:
+      img_urls:
+        items:
+          type: string
+        type: array
+    type: object
+  userreq.User:
+    properties:
+      password:
         type: string
-      id:
-        type: integer
-      is_r18:
-        type: boolean
-      origin_url:
+      username:
         type: string
-      relative_path:
+    type: object
+  userresp.Token:
+    properties:
+      token:
         type: string
-      tags:
+    type: object
+  userresp.User:
+    properties:
+      username:
         type: string
     type: object
 info:
@@ -81,14 +92,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/calculator.IPv4'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/model.Err'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/model.Err'
+            $ref: '#/definitions/commonresp.Err'
       summary: 解析 ipv4
       tags:
       - calculator
@@ -108,14 +115,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/calculator.IPv6'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/model.Err'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/model.Err'
+            $ref: '#/definitions/commonresp.Err'
       summary: 解析 ipv6
       tags:
       - calculator
@@ -133,16 +136,87 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/pixiv.ImageInDB'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/model.Err'
+            $ref: '#/definitions/pixiv.Images'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/model.Err'
+            $ref: '#/definitions/commonresp.Err'
       summary: 获取 pixiv 图片 url
       tags:
       - pixiv
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/userreq.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/userresp.Token'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/commonresp.Err'
+      summary: 登录
+      tags:
+      - user
+  /user/me:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/userresp.User'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/commonresp.Err'
+      security:
+      - ApiKeyAuth: []
+      summary: 个人信息
+      tags:
+      - user
+  /user/signup:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/userreq.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/commonresp.Ok'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/commonresp.Err'
+      summary: 注册
+      tags:
+      - user
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: token
+    type: apiKey
 swagger: "2.0"

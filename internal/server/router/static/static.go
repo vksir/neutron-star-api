@@ -10,6 +10,6 @@ const (
 	PixivRelativePath = "/static/img/pixiv"
 )
 
-func LoadHandler(e *gin.Engine) {
-	e.Static("/static", Root)
+func LoadRouters(g *gin.RouterGroup) {
+	g.Static("/static", Root)
 }

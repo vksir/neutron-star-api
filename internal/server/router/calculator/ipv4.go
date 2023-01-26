@@ -3,17 +3,18 @@ package calculator
 import (
 	"math/big"
 	"net"
+	"neutron-star-api/internal/server/model/calculator/calculatorresp"
 )
 
 const IPv4Bits = 32
 
-func ParseIPv4(ipAddr string) (*IPv4, error) {
+func ParseIPv4(ipAddr string) (*calculatorresp.IPv4, error) {
 	if ip, ipNet, err := net.ParseCIDR(ipAddr); err != nil {
 		return nil, err
 	} else {
 		prefixLen, _ := ipNet.Mask.Size()
 		start, end := getAddressRange(ipNet, IPv4Bits)
-		return &IPv4{
+		return &calculatorresp.IPv4{
 			IP:           ip.String(),
 			CIDR:         ipNet.String(),
 			Start:        start.String(),

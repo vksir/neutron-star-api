@@ -1,8 +1,4 @@
-package calculator
-
-type IpCalcParams struct {
-	IpAddr string `form:"ip_addr" binding:"required"`
-}
+package calculatorresp
 
 type IPv4 struct {
 	IP           string `json:"ip"`

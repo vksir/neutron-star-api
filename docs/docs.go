@@ -43,16 +43,10 @@ const docTemplate = `{
                             "$ref": "#/definitions/calculator.IPv4"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.Err"
-                        }
-                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/model.Err"
+                            "$ref": "#/definitions/commonresp.Err"
                         }
                     }
                 }
@@ -85,16 +79,10 @@ const docTemplate = `{
                             "$ref": "#/definitions/calculator.IPv6"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.Err"
-                        }
-                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/model.Err"
+                            "$ref": "#/definitions/commonresp.Err"
                         }
                     }
                 }
@@ -123,19 +111,124 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/pixiv.ImageInDB"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/model.Err"
+                            "$ref": "#/definitions/pixiv.Images"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/model.Err"
+                            "$ref": "#/definitions/commonresp.Err"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "登录",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/userreq.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/userresp.Token"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/commonresp.Err"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/me": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "个人信息",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/userresp.User"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/commonresp.Err"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/signup": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "注册",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/userreq.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/commonresp.Ok"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/commonresp.Err"
                         }
                     }
                 }
@@ -206,7 +299,7 @@ const docTemplate = `{
                 }
             }
         },
-        "model.Err": {
+        "commonresp.Err": {
             "type": "object",
             "properties": {
                 "detail": {
@@ -214,28 +307,53 @@ const docTemplate = `{
                 }
             }
         },
-        "pixiv.ImageInDB": {
+        "commonresp.Ok": {
+            "type": "object"
+        },
+        "pixiv.Images": {
             "type": "object",
             "properties": {
-                "create_time": {
+                "img_urls": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "userreq.User": {
+            "type": "object",
+            "properties": {
+                "password": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "integer"
-                },
-                "is_r18": {
-                    "type": "boolean"
-                },
-                "origin_url": {
-                    "type": "string"
-                },
-                "relative_path": {
-                    "type": "string"
-                },
-                "tags": {
+                "username": {
                     "type": "string"
                 }
             }
+        },
+        "userresp.Token": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "userresp.User": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "token",
+            "in": "header"
         }
     }
 }`

@@ -8,11 +8,15 @@ import (
 
 var DB *sql.DB
 
+func InitDataBase() {
+
+}
+
 func Connect() {
 	var err error
 	DB, err = sql.Open("postgres", "postgresql://ns:vksir97634@localhost:5432/ns_api")
 	if err != nil {
-		log.Fatal("unable to use data source name", err)
+		log.Fatal("Unable to use data source name", err)
 	}
 	DB.SetConnMaxLifetime(0)
 	DB.SetMaxIdleConns(3)

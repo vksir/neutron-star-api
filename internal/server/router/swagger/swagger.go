@@ -8,9 +8,9 @@ import (
 	_ "neutron-star-api/docs"
 )
 
-func LoadHandler(e *gin.Engine) {
-	e.GET("/docs", redirect)
-	e.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+func LoadRouters(g *gin.RouterGroup) {
+	g.GET("/docs", redirect)
+	g.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
 
 func redirect(c *gin.Context) {
